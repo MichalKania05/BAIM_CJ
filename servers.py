@@ -33,4 +33,4 @@ for port, page in pages.items():
     Thread(target=server.serve_forever, daemon=True).start()
     print(f"http://localhost:{port} -> {page}")
 
-input("Naciśnij Enter, aby zakończyć serwery...")
+input("Naciśnij Enter, aby zatrzymać serwery...")
