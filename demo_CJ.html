@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje notatki</title>
+    <style>
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .fullscreen-iframe {
+            width: 50%;
+            height: 50%;
+            margin-left: 125px;
+            margin-top: 290px;
+            border: none;
+            display: block;
+            z-index: 1;         /* ustawia indeks warstwy (na samym dole) */
+        }
+
+        .fullscreen-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;  /* dopasowuje obraz do wymiarów kontenera */
+            position: absolute;
+            opacity: 1;
+            z-index: 50;        /* ustawia indeks warstwy (nad iframe, pod przyciskiem */
+            pointer-events: none;   /* kliknięcia przechodzą przez obraz */
+        }
+
+          
+        .button {
+            position: absolute;
+            display: inline-block;
+            color: #ffffff;
+            padding: 16px 36px;
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            text-align: center;
+
+            background-color: #00E800;
+            background-image: linear-gradient(
+                135deg,
+                #00A000,
+                #00D000,
+                #00ff00,
+            );
+            background-size: 200% 200%;
+
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+
+            box-shadow:
+                0 0 12px rgba(0, 160, 0, 0.65),
+                0 0 30px rgba(0, 255, 0, 0.45),
+                0 8px 20px rgba(0, 160, 0, 0.3);
+
+            z-index: 100;           /* ustawia indeks warstwy (na samym wierzchu) */
+            opacity: 1;             /* w pełni widoczny*/
+            margin-left: 685px;
+            margin-top: 315px;
+            pointer-events: none;   /* kliknięcia przechodzą przez przycisk */
+        }
+
+</style>
+
+</head>
+<body>
+
+    <!-- Jeszcze nad przyciskiem jakiś napis gratulacji xd -->
+    <div class="button">Odbierz<br>nagrodę</div>
+    <img class="fullscreen-image" src="https://images3.alphacoders.com/138/thumb-1920-1381481.jpg">
+    <iframe src="http://127.0.0.1:8000/" class="fullscreen-iframe" title="Moje notatki"></iframe>
+
+</body>
+

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje notatki</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f5;
+            color: #222;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 10px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #00000015;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        button, textarea {
+            font: inherit;
+        }
+
+        button {
+            padding: 11px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 4px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .secondary {
+            background: #e5e7eb;
+            color: #222;
+        }
+
+        .danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .actions button {
+            margin: 0;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 15px;
+            resize: vertical;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .note-info {
+            color: #666;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 18px;
+            padding: 12px;
+            background: #e5e7eb;
+            border-radius: 8px;
+        }
+
+        #message:empty {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin: 20px auto;
+                padding: 16px;
+            }
+
+            .actions button {
+                flex: 1;
+            }
+
+            textarea {
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+
+        <div class="actions">
+            <button class="secondary" id="logoutBtn">
+                Wyloguj
+            </button>
+
+            <button class="danger" id="deleteBtn">
+                Usuń konto
+            </button>
+        </div>
+
+        <h1>Twoje notatki</h1>
+
+        <textarea
+            id="notes"
+            placeholder="Zacznij pisać swoje notatki..."
+        ></textarea>
+
+        <p class="note-info">
+            Notatki zapisują się automatycznie w tej przeglądarce.
+        </p>
+
+        <p id="saveStatus" class="note-info" role="status">
+            Gotowe.
+        </p>
+
+        <p id="message" role="status" aria-live="polite"></p>
+
+    </main>
+
+    <script>
+        const NOTES_KEY = "notesAppNotes";
+
+        const notes = document.getElementById("notes");
+        const saveStatus = document.getElementById("saveStatus");
+        const message = document.getElementById("message");
+
+        let saveTimer;
+
+        // Wczytanie notatek po uruchomieniu strony.
+        try {
+            notes.value = localStorage.getItem(NOTES_KEY) || "";
+        } catch {
+            saveStatus.textContent = "Nie udało się wczytać notatek.";
+        }
+
+        // Automatyczny zapis notatek.
+        notes.addEventListener("input", function () {
+            saveStatus.textContent = "Zapisywanie...";
+
+            clearTimeout(saveTimer);
+
+            saveTimer = setTimeout(function () {
+                try {
+                    localStorage.setItem(NOTES_KEY, notes.value);
+                    saveStatus.textContent = "Zapisano automatycznie.";
+                } catch {
+                    saveStatus.textContent = "Nie udało się zapisać notatek.";
+                }
+            }, 300);
+        });
+
+        // Symulacja wylogowania.
+        document.getElementById("logoutBtn").addEventListener("click", function () {
+            alert("Pomyślnie wylogowano (symulacja)");
+        });
+
+        // Symulacja usunięcia konta.
+        document.getElementById("deleteBtn").addEventListener("click", function () {
+            alert("Usunięto konto (symulacja)");
+        });
+    </script>
+</body>
+</html>

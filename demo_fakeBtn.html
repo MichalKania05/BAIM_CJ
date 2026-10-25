@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje notatki</title>
+    <style>
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .fullscreen-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+          .button {
+            position: absolute;
+            display: inline-block;
+            padding: 8px 32px;              /* rozmiar przycisku */
+            background-color: #efefef;
+            margin-left: 1070px;
+            margin-top: 35px;               /* przesunięcie przycisku */
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            color: #000;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            text-align: center;
+            user-select: none;
+            opacity: 0.5;           /* półprzezroczysty przycisk by widzieć co jest pod spodem */
+            z-index: 100;           /* ustawia indeks warstwy (na samym wierzchu) */
+            pointer-events: none;   /* kliknięcia przechodzą przez przycisk */
+        }
+
+        .button:hover {
+            background-color: #e5e5e5;
+        }
+
+        .button:active {
+            background-color: #d5d5d5;
+        }
+
+</style>
+
+</head>
+<body>
+
+    <div class="button">Wyczyść<br>notatki</div>
+    <iframe src="http://127.0.0.1:8000/" class="fullscreen-iframe" title="Moje notatki"></iframe>
+
+</body>
+</html>

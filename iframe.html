@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje notatki</title>
+    <style>
+
+        html, body {
+            margin: 0;
+            padding: 0;         /* zeruje zewn. i wewn. marginesy */
+            width: 100%;
+            height: 100%;       /* ustawia szer. i wys. na 100% */
+            overflow: hidden;   /* usuwa paski przewijania */
+        }
+
+        .fullscreen-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;       /* usuwa obramowanie iframe */
+            display: block;     /* element zaczyna się od nowego wiersza
+                                   i zajmuje całą dostępną przestrzeń */
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <iframe src="http://127.0.0.1:8000/" class="fullscreen-iframe" title="Moje notatki"></iframe>
+    
+</body>
+</html>
