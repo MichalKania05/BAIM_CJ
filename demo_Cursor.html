@@ -2,61 +2,100 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Demo kursora</title>
-<style>
-  html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    cursor: none;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Falszywy kursor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 60px 20px;
+      background: #f4f6f8;
+    }
 
-  iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-  }
+    body.hide-cursor,
+    body.hide-cursor * {
+      cursor: none;       /* Ukrywa prawdziwy kursor w trybie demonstracyjnym */
+    }   
 
-  /* Przezroczysta warstwa nad całą stroną */
-  #mouseLayer {
-    position: fixed;
-    inset: 0;
-    z-index: 999998;
-    background: transparent;
-    cursor: none;
-  }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 30px auto;
+    }
 
-  #fakeCursor {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 999999;
-    pointer-events: none;
-    font: 28px/1 sans-serif;
-    user-select: none;
-  }
-</style>
+    button {
+      padding: 16px 28px;
+      border: 0;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #btn1 { background: #2563eb; }
+    #btn2 { background: #dc2626; }
+
+    #cursor {
+      position: fixed;
+      display: none;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 26px;
+    }
+
+    #status {
+      margin-top: 24px;
+      min-height: 24px;
+    }
+
+  </style>
 </head>
 <body>
+  <h2>Demonstracja falszywego kursora</h2>
 
-<iframe src="http://127.0.0.1:8000/" title="Moje notatki"></iframe>
+  <div class="buttons">
+    <button id="btn1">Przycisk A</button>
+    <button id="btn2">Przycisk B</button>
+  </div>
 
-<div id="mouseLayer"></div>
-<div id="fakeCursor" aria-hidden="true">🖊</div>
+  <button id="toggle" style="background:#374151">Włącz demo</button>
 
-<script>
-  const layer = document.getElementById("mouseLayer");
-  const cursor = document.getElementById("fakeCursor");
+  <div id="cursor">🫵</div>
+  <p id="status">Tryb normalny.</p>
 
-  layer.addEventListener("mousemove", event => {
-    cursor.style.left = (event.clientX - 800) + "px";
-    cursor.style.top = event.clientY + "px";
-  });
-</script>
+  <script>
+    const cursor = document.getElementById("cursor");
+    const toggle = document.getElementById("toggle");
+    const status = document.getElementById("status");
 
+    let active = false;
+
+    toggle.addEventListener("click", () => {
+      active = !active;
+
+      document.body.classList.toggle("hide-cursor", active);
+      cursor.style.display = active ? "block" : "none";
+
+      toggle.textContent = active ? "Wyłącz demo" : "Włącz demo";
+    });
+
+    document.addEventListener("mousemove", (event) => {
+      if (!active) return;
+
+      // Przesunięcie fałszywego kursora względem prawdziwego
+      cursor.style.left = (event.clientX + 150) + "px";
+      cursor.style.top = (event.clientY) + "px";
+    });
+
+    document.getElementById("btn1").addEventListener("click", () => {
+      status.textContent = "Kliknięto przycisk A.";
+    });
+
+    document.getElementById("btn2").addEventListener("click", () => {
+      status.textContent = "Kliknięto przycisk B.";
+    });
+  </script>
 </body>
 </html>
