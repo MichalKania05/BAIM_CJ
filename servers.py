@@ -12,9 +12,10 @@ from functools import partial
 pages = {
     8000: "notesite.html",
     8001: "iframe.html",
-    8002: "demo_fakeBtn.html",
-    8003: "demo_CJ.html",
-    8004: "demo_Cursor.html"
+    8002: "demo_fullsizeDiv.html",
+    8003: "demo_fakeBtn.html",
+    8004: "demo_CJ.html",
+    8005: "demo_Cursor.html"
 }
 
 class Handler(SimpleHTTPRequestHandler):
