@@ -13,10 +13,8 @@
       background: #f4f6f8;
     }
 
-    body.hide-cursor,
-    body.hide-cursor * {
-      cursor: none;       /* Ukrywa prawdziwy kursor w trybie demonstracyjnym */
-    }   
+    body.hide-cursor, body.hide-cursor * {cursor: none;}
+    /* Ukrywa prawdziwy kursor w trybie demonstracyjnym */
 
     .buttons {
       display: flex;
@@ -46,8 +44,7 @@
     }
 
     #status {
-      margin-top: 24px;
-      min-height: 24px;
+      margin-top: 24px; min-height: 24px;
     }
 
   </style>
@@ -74,16 +71,13 @@
 
     toggle.addEventListener("click", () => {
       active = !active;
-
       document.body.classList.toggle("hide-cursor", active);
       cursor.style.display = active ? "block" : "none";
-
       toggle.textContent = active ? "Wyłącz demo" : "Włącz demo";
     });
 
     document.addEventListener("mousemove", (event) => {
       if (!active) return;
-
       // Przesunięcie fałszywego kursora względem prawdziwego
       cursor.style.left = (event.clientX + 150) + "px";
       cursor.style.top = (event.clientY) + "px";

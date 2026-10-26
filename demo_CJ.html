@@ -72,12 +72,33 @@
             pointer-events: none;   /* kliknięcia przechodzą przez przycisk */
         }
 
+        .gratz {
+            position: absolute;
+            width: min(1000px, calc(100% - 32px));
+            box-sizing: border-box;
+            left: 50%;
+            top: 30%;
+            transform: translate(-50%, -50%);
+            padding: 24px;
+            border: 3px solid #ffcc00;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.65);
+            color: #ffffff;
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1.15;
+            text-align: center;
+            text-shadow: 0 2px 5px #000000, 0 0 18px #ffcc00;
+            z-index: 100;
+            pointer-events: none;
+        }
+
 </style>
 
 </head>
 <body>
 
-    <!-- Jeszcze nad przyciskiem jakiś napis gratulacji xd -->
+    <div class="gratz">Gratulacje! Właśnie wygrałeś Vdolce!</div>
     <div class="button">Odbierz<br>nagrodę</div>
     <img class="fullscreen-image" src="https://images3.alphacoders.com/138/thumb-1920-1381481.jpg">
     <iframe src="http://127.0.0.1:8000/" class="fullscreen-iframe" title="Moje notatki"></iframe>
