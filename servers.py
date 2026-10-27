@@ -1,4 +1,3 @@
-
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Thread
 from functools import partial
@@ -22,6 +21,21 @@ class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, page="index.html", **kwargs):
         self.page = page
         super().__init__(*args, **kwargs)
+
+    ''' Dodawanie sposobów ochrony przed CJ:'''
+    ''' self.send_header("X-Frame-Options", "DENY") '''
+    ''' self.send_header("X-Frame-Options", "SAMEORIGIN") '''
+    ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self'") '''
+    ''' self.send_header("Content-Security-Policy", "frame-ancestors 'none'") '''
+    ''' self.send_header("Content-Security-Policy", "frame-ancestors http://127.0.0.1:8000/") '''
+     
+    def end_headers(self):
+        if self.page == "notesite.html":
+        
+            self.send_header("X-Frame-Options", "SAMEORIGIN")
+
+        super().end_headers()
+ 
 
     def do_GET(self):
         if self.path == "/":
