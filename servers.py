@@ -1,26 +1,27 @@
+
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from threading import Thread
-from functools import partial
 
 ''' ============================= '''
 ''' TERMINAL:   CTRL + `          '''
 ''' RUN WITH:   python servers.py '''
-''' STOP WITH:  ENTER in terminal '''
+''' STOP WITH:  CTRL + C          '''
 ''' ============================= '''
 
+HOST = "localhost"
+PORT = 2000
+
 pages = {
-    8000: "notesite.html",
-    8001: "iframe.html",
-    8002: "demo_fullsizeDiv.html",
-    8003: "demo_fakeBtn.html",
-    8004: "demo_CJ.html",
-    8005: "demo_Cursor.html"
+    "/notesite.html": "notesite.html",
+    "/iframe.html": "iframe.html",
+    "/demo_fullsizeDiv.html": "demo_fullsizeDiv.html",
+    "/demo_fakeBtn.html": "demo_fakeBtn.html",
+    "/demo_CJ.html": "demo_CJ.html",
+    "/demo_Cursor.html": "demo_Cursor.html",
 }
 
+
 class Handler(SimpleHTTPRequestHandler):
-    def __init__(self, *args, page="index.html", **kwargs):
-        self.page = page
-        super().__init__(*args, **kwargs)
 
     ''' Dodawanie sposobów ochrony przed CJ:'''
     ''' self.send_header("X-Frame-Options", "DENY") '''
@@ -28,24 +29,39 @@ class Handler(SimpleHTTPRequestHandler):
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self'") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'none'") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors http://127.0.0.1:8000/") '''
-     
-    def end_headers(self):
-        if self.page == "notesite.html":
-        
-            self.send_header("X-Frame-Options", "SAMEORIGIN")
 
+    '''
+    def end_headers(self):
+        if self.path.split("?")[0] == "/notesite.html":
+            POLICIES GO HERE
         super().end_headers()
- 
+    '''
 
     def do_GET(self):
+        # Strona domyślna
         if self.path == "/":
-            self.path = "/" + self.page
+            self.path = "/notesite.html"
+
+        # Obsługa nieznanych ścieżek
+        requested_path = self.path.split("?")[0]
+
+        if requested_path not in pages and requested_path != "/":
+            self.send_error(404, "Nie znaleziono strony")
+            return
+
         return super().do_GET()
 
-for port, page in pages.items():
-    handler = partial(Handler, page=page)
-    server = HTTPServer(("localhost", port), handler)
-    Thread(target=server.serve_forever, daemon=True).start()
-    print(f"http://localhost:{port} -> {page}")
 
-input("Naciśnij Enter, aby zatrzymać serwery...")
+server = HTTPServer((HOST, PORT), Handler)
+
+print(f"Serwer działa pod adresem: http://{HOST}:{PORT}")
+
+for path in pages:
+    print(f"http://{HOST}:{PORT}{path}")
+
+try:
+    server.serve_forever()
+except KeyboardInterrupt:
+    print("\nZatrzymywanie serwera...")
+finally:
+    server.server_close()
