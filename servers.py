@@ -33,7 +33,7 @@ class Handler(SimpleHTTPRequestHandler):
     '''
     def end_headers(self):
         if self.path.split("?")[0] == "/notesite.html":
-            POLICIES GO HERE
+            UNCOMMENT AND ADD POLICIES FROM ABOVE HERE
         super().end_headers()
     '''
 

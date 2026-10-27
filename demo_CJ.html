@@ -22,16 +22,16 @@
             margin-top: 290px;
             border: none;
             display: block;
-            z-index: 1;         /* ustawia indeks warstwy (na samym dole) */
+            z-index: 1;             /* na samym dole, kompletnie zasłonięta */
         }
 
         .fullscreen-image {
             width: 100%;
             height: 100%;
-            object-fit: cover;  /* dopasowuje obraz do wymiarów kontenera */
+            object-fit: cover;      /* dopasowuje obraz do wymiarów kontenera */
             position: absolute;
             opacity: 1;
-            z-index: 50;        /* ustawia indeks warstwy (nad iframe, pod przyciskiem */
+            z-index: 50;            /* zasłania iframe, ale jest pod przyciskiem */
             pointer-events: none;   /* kliknięcia przechodzą przez obraz */
         }
 
@@ -66,7 +66,7 @@
                 0 8px 20px rgba(0, 160, 0, 0.3);
 
             z-index: 100;           /* ustawia indeks warstwy (na samym wierzchu) */
-            opacity: 1;             /* w pełni widoczny*/
+            opacity: 1;             /* w pełni widoczny */
             margin-left: 685px;
             margin-top: 315px;
             pointer-events: none;   /* kliknięcia przechodzą przez przycisk */
