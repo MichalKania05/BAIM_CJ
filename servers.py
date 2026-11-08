@@ -9,79 +9,104 @@ from threading import Thread
 ''' ============================= '''
 
 HOST = "localhost"
-PORT = 2000
-TRUSTED_PORT = 3000
 
+PORT_NOTES = 1000
+PORT_MAIN = 2000
+PARTNER_PORT = 3000
+
+# Strony przypisane do poszczególnych portów
 pages = {
-    "/notesite.html": "notesite.html",
-    "/attacker.html": "attacker.html",
-    "/demo_fullsizeDiv.html": "demo_fullsizeDiv.html",
-    "/demo_fakeBtn.html": "demo_fakeBtn.html",
-    "/demo_CJ.html": "demo_CJ.html",
-    "/demo_Cursor.html": "demo_Cursor.html",
-    "/trusted.html": "trusted.html"
+    1000: [
+        "/notesite.html",
+        "/othersite.html"
+    ],
+    2000: [
+        "/attacker.html",
+        "/demo_fullsizeDiv.html",
+        "/demo_fakeBtn.html",
+        "/demo_CJ.html",
+        "/demo_Cursor.html"
+    ],
+    3000: [
+        "/partner.html"
+    ]
 }
 
 
 class Handler(SimpleHTTPRequestHandler):
 
     ''' Dodawanie sposobów ochrony przed CJ:'''
+    ''' UNCOMMENT THIS FUNCTION AND ADD POLICIES FROM ABOVE HERE '''
     ''' self.send_header("X-Frame-Options", "DENY") '''
     ''' self.send_header("X-Frame-Options", "SAMEORIGIN") '''
-    ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self'") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'none'") '''
+    ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self'") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self' http://127.0.0.1:3000/partner.html") '''
 
-    '''
+    
     def end_headers(self):
         if self.path.split("?")[0] == "/notesite.html":
-            UNCOMMENT THIS FUNCTION AND ADD POLICIES FROM ABOVE HERE
+            self.send_header("X-Frame-Options", "SAMEORIGIN")
         super().end_headers()
-    '''
     
 
     def do_GET(self):
-        # Strona domyślna
-        if self.path == "/":
-            if self.server.server_port == TRUSTED_PORT:
-                self.path = "/trusted.html"
-            else:
-                self.path = "/notesite.html"
-
-        # Obsługa nieznanych ścieżek
+        # Usunięcie parametrów URL
         requested_path = self.path.split("?")[0]
 
-        if self.server.server_port == TRUSTED_PORT:
-            if requested_path != "/trusted.html":
-                self.send_error(404, "Nie znaleziono strony")
-                return
-        else:
-            if requested_path not in pages:
-                self.send_error(404, "Nie znaleziono strony")
-                return
+        # Strona domyślna
+        if requested_path == "/":
+            if self.server.server_port == PORT_NOTES:
+                self.path = "/notesite.html"
+            elif self.server.server_port == PARTNER_PORT:
+                self.path = "/partner.html"
+            else:
+                self.path = "/attacker.html"
+
+            requested_path = self.path
+
+        # Sprawdzenie, czy strona jest przypisana do portu
+        allowed_pages = pages.get(self.server.server_port, [])
+
+        if requested_path not in allowed_pages:
+            self.send_error(404, "Nie znaleziono strony")
+            return
 
         return super().do_GET()
 
 
-server = HTTPServer((HOST, PORT), Handler)
-trusted_server = HTTPServer((HOST, TRUSTED_PORT), Handler)
+# Tworzenie serwerów
+servers = {
+    PORT_NOTES: HTTPServer((HOST, PORT_NOTES), Handler),
+    PORT_MAIN: HTTPServer((HOST, PORT_MAIN), Handler),
+    PARTNER_PORT: HTTPServer((HOST, PARTNER_PORT), Handler)
+}
 
-print(f"Serwer działa pod adresem: http://{HOST}:{PORT}")
-for path in pages:
-    print(f"http://{HOST}:{PORT}{path}")
-print(f"Zaufana strona: http://{HOST}:{TRUSTED_PORT}/trusted.html")
+print("\nSerwery działają pod adresami:")
 
-server_thread = Thread(target=server.serve_forever)
-trusted_server_thread = Thread(target=trusted_server.serve_forever)
-server_thread.start()
-trusted_server_thread.start()
+for port, server in servers.items():
+    print(f"\nPort {port}:")
+    for path in pages[port]:
+        print(f"http://{HOST}:{port}{path}")
+
+# Uruchamianie serwerów w osobnych wątkach
+threads = []
+
+for server in servers.values():
+    thread = Thread(target=server.serve_forever)
+    thread.start()
+    threads.append(thread)
+
 try:
-    server_thread.join()
-    trusted_server_thread.join()
+    for thread in threads:
+        thread.join()
+
 except KeyboardInterrupt:
-    print("\nZatrzymywanie serwera...")
+    print("\nZatrzymywanie serwerów...")
+
 finally:
-    server.shutdown()
-    trusted_server.shutdown()
-    server.server_close()
-    trusted_server.server_close()
+    for server in servers.values():
+        server.shutdown()
+        server.server_close()
+
+    print("Wszystkie serwery zostały zatrzymane.")
