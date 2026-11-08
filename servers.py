@@ -28,7 +28,6 @@ class Handler(SimpleHTTPRequestHandler):
     ''' self.send_header("X-Frame-Options", "SAMEORIGIN") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self'") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'none'") '''
-    ''' self.send_header("Content-Security-Policy", "frame-ancestors http://127.0.0.1:8000/") '''
 
     '''
     def end_headers(self):
