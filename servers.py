@@ -14,7 +14,7 @@ TRUSTED_PORT = 3000
 
 pages = {
     "/notesite.html": "notesite.html",
-    "/iframe.html": "iframe.html",
+    "/attacker.html": "attacker.html",
     "/demo_fullsizeDiv.html": "demo_fullsizeDiv.html",
     "/demo_fakeBtn.html": "demo_fakeBtn.html",
     "/demo_CJ.html": "demo_CJ.html",
@@ -30,7 +30,7 @@ class Handler(SimpleHTTPRequestHandler):
     ''' self.send_header("X-Frame-Options", "SAMEORIGIN") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self'") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'none'") '''
-    ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self' http://127.0.0.1:3000/trusted.html") '''
+    ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self' http://127.0.0.1:3000/partner.html") '''
 
     '''
     def end_headers(self):
