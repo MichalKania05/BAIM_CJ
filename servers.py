@@ -35,19 +35,20 @@ pages = {
 
 class Handler(SimpleHTTPRequestHandler):
 
-    ''' Dodawanie sposobów ochrony przed CJ:'''
-    ''' UNCOMMENT THIS FUNCTION AND ADD POLICIES FROM ABOVE HERE '''
+    ''' Dodawanie sposobów ochrony przed CJ: '''
     ''' self.send_header("X-Frame-Options", "DENY") '''
     ''' self.send_header("X-Frame-Options", "SAMEORIGIN") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'none'") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self'") '''
     ''' self.send_header("Content-Security-Policy", "frame-ancestors 'self' http://127.0.0.1:3000/partner.html") '''
 
-    
+    '''
     def end_headers(self):
         if self.path.split("?")[0] == "/notesite.html":
-            self.send_header("X-Frame-Options", "SAMEORIGIN")
+            UNCOMMENT THIS FUNCTION AND ADD POLICIES FROM ABOVE HERE
+            UNCOMMENT THIS FUNCTION AND ADD POLICIES FROM ABOVE HERE
         super().end_headers()
+    '''
     
 
     def do_GET(self):
