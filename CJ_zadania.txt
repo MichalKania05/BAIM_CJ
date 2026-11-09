@@ -1,0 +1,23 @@
+
+Zadanie 1.
+Napisz własną stronę symulującą atak Clickjacking.
+Możesz skorzystać z pliku attacker.html i zmodyfikować go w dowolny sposób.
+Zainspiruj się sposobami przedstawionymi w plikach demo_---.html.
+Najważniejsze jest tutaj zrozumienie kodu, a dokładniej sposobu umieszczenia poszczególnych warstw.
+W tym celu zwróć uwagę przede wszystkim na następujące właściwości CSS:
+
+	1) z-index: ...;			--> kontroluje kolejność nakładania się elementów,
+			 	    	    	im większa wartość, tym bardziej na wierzchu znajduje się obiekt
+	2) opacity: ...;           	--> kontroluje przezroczystość elementu,
+					    		0 oznacza pełną przezroczystość, 1 oznacza pełną widoczność
+ 	3) pointer-events: none;	--> kliknięcia kursora myszy przechodzą przez obiekt na obiekt pod spodem
+
+Zadanie 2.
+Przeanalizuj metody ochrony, a w szczególności slajdy demonstrujące ich działanie. Spróbuj samodzielnie potwierdzić ich działanie.
+W pliku servers.py usuń komentarze z funkcji end_headers(self) i dodawaj do niej dowolne sposoby ochrony z listy nad tą funkcją.
+Pamiętaj o restartowaniu pliku po jego edycji. Następnie sprawdź, czy zmiany zostały zawarte w nagłówku strony notesite.html.
+Możesz łączyć X-Frame-Options oraz CSP: frame-ancestors i testować działanie obu jednocześnie.
+Dla wybranych nagłówków sprawdź, czy strony othersite.html, attacker.html i partner.html mogą osadzać stronę notesite.html czy nie.
+Opcjonalnie, zamiast notesite.html, w znaczniku <iframe> src="..." możesz ustawić adresy innych, publicznych stron i na nich testować.
+
+
